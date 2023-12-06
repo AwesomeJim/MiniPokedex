@@ -17,16 +17,16 @@
 @Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.devtools.ksp)
 }
 
 android {
     namespace = "com.awesomejim.pokedex.feature.pokemon"
-    compileSdk = 34
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
-        minSdk = 21
+        minSdk = libs.versions.min.sdk.get().toInt()
 
         testInstrumentationRunner = "com.awesomejim.pokedex.core.testing.HiltTestRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -50,7 +50,8 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = libs.versions.jvm.target.get()
+        freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
     }
 }
 
@@ -80,13 +81,13 @@ dependencies {
 
     // Hilt Dependency Injection
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     // Hilt and instrumented tests.
     androidTestImplementation(libs.hilt.android.testing)
-    kaptAndroidTest(libs.hilt.android.compiler)
+    kspAndroidTest(libs.hilt.android.compiler)
     // Hilt and Robolectric tests.
     testImplementation(libs.hilt.android.testing)
-    kaptTest(libs.hilt.android.compiler)
+    kspTest(libs.hilt.android.compiler)
 
     // Local tests: jUnit, coroutines, Android runner
     testImplementation(libs.junit)

@@ -17,8 +17,8 @@
 @Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     alias(libs.plugins.android.test)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.devtools.ksp)
 }
 
 android {
@@ -61,7 +61,7 @@ dependencies {
 
     // Hilt and instrumented tests.
     implementation(libs.hilt.android.testing)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     // Compose
     implementation(libs.androidx.compose.ui.test.junit4)

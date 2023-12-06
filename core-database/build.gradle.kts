@@ -17,17 +17,17 @@
 @Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.devtools.ksp)
+
 }
 
 android {
     namespace = "com.awesomejim.pokedex.core.database"
-    compileSdk = 34
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
-        minSdk = 21
+        minSdk = libs.versions.min.sdk.get().toInt()
 
         testInstrumentationRunner = "com.awesomejim.pokedex.core.testing.HiltTestRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -53,7 +53,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = libs.versions.jvm.target.get()
     }
 }
 
@@ -63,5 +63,5 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 }

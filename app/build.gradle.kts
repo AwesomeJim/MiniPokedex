@@ -17,20 +17,20 @@
 @Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt.gradle)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.dagger.hilt)
+    alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
 }
 
 android {
     namespace = "com.awesomejim.pokedex"
-    compileSdk = 34
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.awesomejim.pokedex"
-        minSdk = 21
-        targetSdk = 34
+        minSdk = libs.versions.min.sdk.get().toInt()
+        targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -60,7 +60,8 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = libs.versions.jvm.target.get()
+        freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
     }
 
     buildFeatures {
@@ -75,10 +76,35 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
 
-    packagingOptions {
+    packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += listOf(
+                "/META-INF/{AL2.0,LGPL2.1}",
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md"
+            )
         }
+    }
+
+    testOptions {
+        packaging {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+        unitTests.isReturnDefaultValues = true
+    }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = libs.versions.jvm.target.get()
+            suppressWarnings = true
+        }
+    }
+
+    hilt {
+        enableAggregatingTask = true
+        enableExperimentalClasspathAggregation = true
     }
 }
 
@@ -93,7 +119,7 @@ dependencies {
 
     // Hilt Dependency Injection
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.android.compiler)
 
     // Arch Components
     implementation(libs.androidx.lifecycle.runtime.compose)

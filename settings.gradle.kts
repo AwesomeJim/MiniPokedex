@@ -16,9 +16,9 @@
 
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -37,3 +37,4 @@ include(":core-testing")
 include(":core-ui")
 include(":feature-pokemon")
 include(":test-app")
+include(":core-network")

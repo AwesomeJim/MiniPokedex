@@ -2,7 +2,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-
+    alias(libs.plugins.com.google.dagger.hilt)
+    alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
 }
 
 android {
@@ -25,6 +27,12 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -36,10 +44,29 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    // Hilt Dependency Injection
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+
+    //------------Timber logging----------
+    implementation(libs.timber)
+
+    //-----------Retrofit & okhttp--------------------
+    implementation(libs.retrofit)
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.converter)
+    implementation(libs.kotlinx.serialization)
+
+    //-----------local unit test-----------
+    testImplementation(libs.test.truth)
+    testImplementation(libs.test.junit4)
+    testImplementation(libs.turbine)
+    testImplementation(libs.mock.android)
+    testImplementation(libs.mock.agent)
+    testImplementation(libs.test.truth)
+    testImplementation(libs.test.coroutines.test)
+    testImplementation(libs.turbine)
 }

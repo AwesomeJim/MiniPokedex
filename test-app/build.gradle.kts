@@ -23,13 +23,12 @@ plugins {
 
 android {
     namespace = "com.awesomejim.pokedex.test.navigation"
-    compileSdk = 34
+    compileSdk = libs.versions.compile.sdk.get().toInt()
     targetProjectPath = ":app"
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 34
-
+        minSdk = libs.versions.min.sdk.get().toInt()
+        targetSdk = libs.versions.target.sdk.get().toInt()
         testInstrumentationRunner = "com.awesomejim.pokedex.core.testing.HiltTestRunner"
     }
 
@@ -46,7 +45,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = libs.versions.jvm.target.get()
     }
 }
 

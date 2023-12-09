@@ -85,11 +85,10 @@ internal fun PokemonScreen(
 
 @Composable
 fun PokemonCard(
-    pokemon: Pokemon, modifier: Modifier = Modifier
-) {
+    pokemon: Pokemon, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier
-            .height(150.dp),
+        modifier = Modifier
+            .height(150.dp).fillMaxWidth(),
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {

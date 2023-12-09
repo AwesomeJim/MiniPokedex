@@ -16,4 +16,12 @@
 
 <resources>
     <string name="app_name">MiniPokedex</string>
+
+    <!-- Settings Screen-->
+    <string name="settings_screen_title" translatable="false">Settings</string>
+
+    <string name="saved_screen_title" translatable="false">My Saved Pokemons</string>
+
+    <string name="home_screen_title" translatable="false">Pokemons</string>
+
 </resources>

@@ -16,21 +16,57 @@
 
 package com.awesomejim.pokedex.ui
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonScreen
 
+
+sealed class PokemonNavigation(var title: String, var icon: ImageVector, var screenRoute: String) {
+
+    object Home : PokemonNavigation("Pokemons", Icons.Filled.Home, "home")
+    object PokemonInfo : PokemonNavigation("Info", Icons.Filled.Home, "info") {
+        const val pokemonNameTypeArg = "name"
+        const val imageUrlTypeArg = "url"
+        val routeWithArgs =
+            "$screenRoute/{$pokemonNameTypeArg}/{$imageUrlTypeArg}"
+        val arguments = listOf(
+            navArgument(pokemonNameTypeArg) { type = NavType.StringType },
+            navArgument(imageUrlTypeArg) { type = NavType.StringType })
+    }
+
+    object Saved : PokemonNavigation("Saved Pokemons", Icons.Filled.Home, "saved")
+    object Settings : PokemonNavigation("Settings", Icons.Filled.Settings, "settings")
+
+
+}
+
 @Composable
-fun MainNavigation() {
+fun MainNavigation(
+    navController: NavHostController,
+    paddingValues: PaddingValues
+) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "main") {
-        composable("main") { PokemonScreen(modifier = Modifier.padding(16.dp)) }
-        // TODO: Add more destinations
+    NavHost(
+        navController, startDestination = PokemonNavigation.Home.screenRoute,
+        modifier = Modifier.padding(paddingValues)
+    ) {
+        composable(PokemonNavigation.Home.screenRoute) {
+            PokemonScreen(modifier = Modifier.padding(16.dp))
+        }
+
     }
 }

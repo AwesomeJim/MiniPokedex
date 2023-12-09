@@ -16,26 +16,30 @@
 
 package com.awesomejim.pokedex.core.data
 
-import com.awesomejim.pokedex.core.database.Pokemon
 import com.awesomejim.pokedex.core.database.PokemonDao
+import com.awesomejim.pokedex.core.database.entitiy.mapper.asDomainList
+import com.awesomejim.pokedex.core.database.entitiy.mapper.asEntity
+import com.awesomejim.pokedex.core.model.Pokemon
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 interface PokemonRepository {
-    val pokemons: Flow<List<String>>
+    val pokemons: Flow<List<Pokemon>?>
 
-    suspend fun add(name: String)
+    suspend fun add(pokemon:Pokemon)
 }
 
 class DefaultPokemonRepository @Inject constructor(
     private val pokemonDao: PokemonDao
 ) : PokemonRepository {
 
-    override val pokemons: Flow<List<String>> =
-        pokemonDao.getPokemons().map { items -> items.map { it.name } }
+    override val pokemons: Flow<List<Pokemon>?> =
+        pokemonDao.getPokemonList().map {
+            it?.asDomainList()
+       }
 
-    override suspend fun add(name: String) {
-        pokemonDao.insertPokemon(Pokemon(name = name))
+    override suspend fun add(pokemon:Pokemon) {
+        pokemonDao.insertPokemon(pokemon.asEntity())
     }
 }

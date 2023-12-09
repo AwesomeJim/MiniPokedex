@@ -18,7 +18,7 @@ package com.awesomejim.pokedex.core.database.di
 
 import android.content.Context
 import androidx.room.Room
-import com.awesomejim.pokedex.core.database.AppDatabase
+import com.awesomejim.pokedex.core.database.PokedexDatabase
 import com.awesomejim.pokedex.core.database.PokemonDao
 import dagger.Module
 import dagger.Provides
@@ -31,17 +31,17 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {
     @Provides
-    fun providePokemonDao(appDatabase: AppDatabase): PokemonDao {
-        return appDatabase.pokemonDao()
+    fun providePokemonDao(pokedexDatabase: PokedexDatabase): PokemonDao {
+        return pokedexDatabase.pokemonDao()
     }
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+    fun provideAppDatabase(@ApplicationContext appContext: Context): PokedexDatabase {
         return Room.databaseBuilder(
             appContext,
-            AppDatabase::class.java,
-            "Pokemon"
+            PokedexDatabase::class.java,
+            "PokedexDb"
         ).build()
     }
 }

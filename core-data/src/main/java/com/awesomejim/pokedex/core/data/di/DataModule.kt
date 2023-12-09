@@ -18,6 +18,7 @@ package com.awesomejim.pokedex.core.data.di
 
 import com.awesomejim.pokedex.core.data.DefaultPokemonRepository
 import com.awesomejim.pokedex.core.data.PokemonRepository
+import com.awesomejim.pokedex.core.model.Pokemon
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -39,11 +40,30 @@ interface DataModule {
 }
 
 class FakePokemonRepository @Inject constructor() : PokemonRepository {
-    override val pokemons: Flow<List<String>> = flowOf(fakePokemons)
+    override val pokemons: Flow<List<Pokemon>> = flowOf(fakePokemons)
 
-    override suspend fun add(name: String) {
+    override suspend fun add(pokemon: Pokemon) {
         throw NotImplementedError()
     }
 }
 
-val fakePokemons = listOf("One", "Two", "Three")
+val fakePokemons = listOf(
+    Pokemon(
+        page = 3707,
+        name = "Bryan Navarro",
+        id = 7599,
+        url = "http://www.bing.com/search?q=etiam"
+    ),
+    Pokemon(
+        page = 2713,
+        name = "Sonya Reese",
+        id = 6714,
+        url = "https://search.yahoo.com/search?p=reprimique"
+    ),
+    Pokemon(
+        page = 4743,
+        name = "Joel Murray",
+        id = 7124,
+        url = "https://search.yahoo.com/search?p=solum"
+    )
+)

@@ -18,8 +18,9 @@ package com.awesomejim.pokedex.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.awesomejim.pokedex.core.database.entitiy.PokemonEntity
 
-@Database(entities = [Pokemon::class], version = 1)
-abstract class AppDatabase : RoomDatabase() {
+@Database(entities = [PokemonEntity::class], version = 1)
+abstract class PokedexDatabase : RoomDatabase() {
     abstract fun pokemonDao(): PokemonDao
 }

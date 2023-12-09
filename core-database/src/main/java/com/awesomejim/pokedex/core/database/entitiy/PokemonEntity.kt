@@ -14,28 +14,16 @@
  * limitations under the License.
  */
 
-package com.awesomejim.pokedex.core.database
+package com.awesomejim.pokedex.core.database.entitiy
 
-import androidx.room.Dao
 import androidx.room.Entity
-import androidx.room.Insert
 import androidx.room.PrimaryKey
-import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 
 @Entity
-data class Pokemon(
-    val name: String
-) {
-    @PrimaryKey(autoGenerate = true)
-    var uid: Int = 0
-}
+data class PokemonEntity(
+    var page: Int = 0,
+    @PrimaryKey val id: Int,
+    val name: String,
+    val url: String,
+)
 
-@Dao
-interface PokemonDao {
-    @Query("SELECT * FROM pokemon ORDER BY uid DESC LIMIT 10")
-    fun getPokemons(): Flow<List<Pokemon>>
-
-    @Insert
-    suspend fun insertPokemon(item: Pokemon)
-}

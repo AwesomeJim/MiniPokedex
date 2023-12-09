@@ -17,8 +17,8 @@
 package com.awesomejim.pokedex.data
 
 import com.awesomejim.pokedex.core.data.DefaultPokemonRepository
-import com.awesomejim.pokedex.core.database.Pokemon
 import com.awesomejim.pokedex.core.database.PokemonDao
+import com.awesomejim.pokedex.core.database.entitiy.PokemonEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -46,13 +46,13 @@ class DefaultPokemonRepositoryTest {
 
 private class FakePokemonDao : PokemonDao {
 
-    private val data = mutableListOf<Pokemon>()
+    private val data = mutableListOf<PokemonEntity>()
 
-    override fun getPokemons(): Flow<List<Pokemon>> = flow {
+    override fun getPokemonList(): Flow<List<PokemonEntity>> = flow {
         emit(data)
     }
 
-    override suspend fun insertPokemon(item: Pokemon) {
+    override suspend fun insertPokemon(item: PokemonEntity) {
         data.add(0, item)
     }
 }

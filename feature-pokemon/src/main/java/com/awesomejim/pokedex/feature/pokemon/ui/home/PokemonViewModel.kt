@@ -52,7 +52,7 @@ class PokemonViewModel @Inject constructor(
         fetchPokemonData()
     }
 
-    private fun fetchPokemonData() {
+    fun fetchPokemonData() {
         viewModelScope.launch {
             val result = pokemonRepository.fetchPokemonList(1)
             _pokemonUiState.emit(processCurrentWeatherResult(result))

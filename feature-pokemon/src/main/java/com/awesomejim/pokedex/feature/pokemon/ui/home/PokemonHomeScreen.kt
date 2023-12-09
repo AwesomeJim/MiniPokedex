@@ -26,13 +26,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -41,39 +39,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.awesomejim.pokedex.core.data.di.fakePokemons
 import com.awesomejim.pokedex.core.model.Pokemon
 import com.awesomejim.pokedex.core.ui.theme.PokemonTheme
 import com.awesomejim.pokedex.feature.pokemon.R
-import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonUiState.Success
 
 @Composable
-fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = hiltViewModel()) {
-    val items by viewModel.pokemonUiState.collectAsStateWithLifecycle()
-    //
-    val lazyListState = rememberLazyListState()
-    if (items is Success) {
-        PokemonScreen(
-            items = (items as Success).data,
-            onSave = { pokemon -> viewModel.addPokemon(pokemon) },
-            modifier = modifier
-        )
-    }
-}
-
-@Composable
-internal fun PokemonScreen(
+ fun PokemonScreen(
     items: List<Pokemon>,
     onSave: (pokemon: Pokemon) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {

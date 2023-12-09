@@ -103,12 +103,12 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     bottomBar = {
-//                        if (bottomBarState.value) {
-//                            AppBottomNavigationItem(
-//                                navController = navController,
-//                                bottomNavigationItems
-//                            )
-//                        }
+                        if (bottomBarState.value) {
+                            AppBottomNavigationItem(
+                                navController = navController,
+                                bottomNavigationItems
+                            )
+                        }
                     }
 
                 ) { paddingValues ->

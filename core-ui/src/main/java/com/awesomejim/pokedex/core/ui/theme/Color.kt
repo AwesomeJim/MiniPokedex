@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.awesomejim.pokedex.core.ui
+package com.awesomejim.pokedex.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

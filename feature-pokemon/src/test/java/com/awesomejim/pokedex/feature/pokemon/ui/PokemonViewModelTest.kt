@@ -19,10 +19,10 @@ package com.awesomejim.pokedex.feature.pokemon.ui
 
 
 import com.awesomejim.pokedex.core.data.local.PokemonRepository
+import com.awesomejim.pokedex.core.data.repository.ApiResult
 import com.awesomejim.pokedex.core.model.Pokemon
 import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonUiState
 import com.awesomejim.pokedex.feature.pokemon.ui.saved.SavedPokemonViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -35,7 +35,6 @@ import org.junit.Test
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-@OptIn(ExperimentalCoroutinesApi::class) // TODO: Remove when stable
 class PokemonViewModelTest {
     @Test
     fun uiState_initiallyLoading() = runTest {
@@ -59,5 +58,9 @@ private class FakePokemonRepository : PokemonRepository {
 
     override suspend fun add(pokemon: Pokemon) {
         data.add(0, pokemon)
+    }
+
+    override suspend fun fetchPokemonList(page: Int): ApiResult<List<Pokemon>> {
+        TODO("Not yet implemented")
     }
 }

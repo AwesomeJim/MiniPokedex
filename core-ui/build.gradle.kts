@@ -62,6 +62,9 @@ dependencies {
     // Core Android dependencies
     implementation(libs.androidx.core.ktx)
 
+    //------------Lottie Amazing Animations ----------
+    implementation(libs.lottie.compose)
+
     // Compose
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)

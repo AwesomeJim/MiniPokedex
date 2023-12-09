@@ -80,6 +80,10 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    //-----------COIL--------------------
+    implementation(libs.coil.compose)
+
+
     //------------Timber logging----------
     implementation(libs.timber)
 

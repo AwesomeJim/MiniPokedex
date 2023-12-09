@@ -17,7 +17,7 @@ class PokedexClient @Inject constructor(
     suspend fun fetchPokemonList(page: Int): Response<PokemonResponse> =
         pokedexService.fetchPokemonList(
             limit = PAGING_SIZE,
-            offset = page * PAGING_SIZE,
+            offset = 0, //page * PAGING_SIZE
         )
 
     suspend fun fetchPokemonInfo(name: String): Response<PokemonInfoResponse> =
@@ -26,6 +26,6 @@ class PokedexClient @Inject constructor(
         )
 
     companion object {
-        private const val PAGING_SIZE = 20
+        private const val PAGING_SIZE = 100
     }
 }

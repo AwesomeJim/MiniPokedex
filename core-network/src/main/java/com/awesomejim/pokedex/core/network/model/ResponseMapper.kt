@@ -2,6 +2,7 @@ package com.awesomejim.pokedex.core.network.model
 
 
 import com.awesomejim.pokedex.core.model.Pokemon
+import java.util.Locale
 
 /**
  * Created by Awesome Jim on.
@@ -22,7 +23,7 @@ fun PokemonItemResponse.toCoreModel(): Pokemon {
             "pokemon/other/official-artwork/$index.png"
     return Pokemon(
         page,
-        name,
+        name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
         id,
         imageUrl
     )

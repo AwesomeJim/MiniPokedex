@@ -16,12 +16,18 @@
 
 package com.awesomejim.pokedex.core.data.local
 
+import com.awesomejim.pokedex.core.data.repository.ApiResult
+import com.awesomejim.pokedex.core.data.repository.printTrace
 import com.awesomejim.pokedex.core.database.PokemonDao
 import com.awesomejim.pokedex.core.database.entitiy.mapper.asDomainList
 import com.awesomejim.pokedex.core.database.entitiy.mapper.asEntity
 import com.awesomejim.pokedex.core.model.Pokemon
+import com.awesomejim.pokedex.core.network.model.mapResponseCodeToThrowable
+import com.awesomejim.pokedex.core.network.model.toCoreModelList
+import com.awesomejim.pokedex.core.network.service.PokedexClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -30,7 +36,8 @@ import javax.inject.Inject
  * 09/12/2023
  */
 class DefaultPokemonRepository @Inject constructor(
-    private val pokemonDao: PokemonDao
+    private val pokemonDao: PokemonDao,
+    private val pokedexClient: PokedexClient
 ) : PokemonRepository {
 
     override val pokemons: Flow<List<Pokemon>?> =
@@ -41,4 +48,22 @@ class DefaultPokemonRepository @Inject constructor(
     override suspend fun add(pokemon:Pokemon) {
         pokemonDao.insertPokemon(pokemon.asEntity())
     }
+
+    override suspend fun fetchPokemonList(page: Int): ApiResult<List<Pokemon>> =
+        try {
+            val response = pokedexClient.fetchPokemonList(page)
+            if (response.isSuccessful && response.body() != null) {
+                val pokemonList = response.body()!!.results.toCoreModelList()
+                ApiResult.Success(data = pokemonList)
+            } else {
+                throw mapResponseCodeToThrowable(response.code())
+            }
+        } catch (e: Exception) {
+            Timber.e(
+                "<<<<<<<<<fetchWeatherDataWithCoordinates Exception>>>>>>>>>>: %s",
+                e.message
+            )
+            printTrace(e)
+            throw e
+        }
 }

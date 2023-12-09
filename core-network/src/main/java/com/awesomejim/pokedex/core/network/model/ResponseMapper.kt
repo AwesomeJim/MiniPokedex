@@ -1,9 +1,7 @@
 package com.awesomejim.pokedex.core.network.model
 
-import com.awesomejim.pokedex.core.data.repository.ErrorType
-import com.awesomejim.pokedex.core.model.Pokemon
-import java.io.IOException
 
+import com.awesomejim.pokedex.core.model.Pokemon
 
 /**
  * Created by Awesome Jim on.
@@ -43,13 +41,4 @@ fun mapResponseCodeToThrowable(code: Int): Throwable = when (code) {
     else -> GenericException("Generic error : $code")
 }
 
-fun mapThrowableToErrorType(throwable: Throwable): com.awesomejim.pokedex.core.data.repository.ErrorType {
-    val errorType = when (throwable) {
-        is IOException -> com.awesomejim.pokedex.core.data.repository.ErrorType.IO_CONNECTION
-        is ClientException -> com.awesomejim.pokedex.core.data.repository.ErrorType.CLIENT
-        is ServerException -> com.awesomejim.pokedex.core.data.repository.ErrorType.SERVER
-        else -> com.awesomejim.pokedex.core.data.repository.ErrorType.GENERIC
-    }
-    return errorType
-}
 

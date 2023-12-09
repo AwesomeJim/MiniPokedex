@@ -18,7 +18,7 @@
 plugins {
     alias(libs.plugins.android.test)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.com.google.devtools.ksp)
+    id(libs.plugins.com.google.devtools.ksp.get().pluginId)
 }
 
 android {
@@ -54,6 +54,7 @@ dependencies {
     implementation(project(":core-data"))
     implementation(project(":core-testing"))
     implementation(project(":feature-pokemon"))
+    implementation(project(":core-model"))
 
     // Testing
     implementation(libs.androidx.test.core)

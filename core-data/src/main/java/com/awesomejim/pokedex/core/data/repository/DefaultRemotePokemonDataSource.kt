@@ -14,7 +14,7 @@ import javax.inject.Inject
  * 09/12/2023
  */
 @VisibleForTesting
-class DefaultRemoteWeatherDataSource @Inject constructor(
+class DefaultRemotePokemonDataSource @Inject constructor(
     private val pokedexClient: PokedexClient
 ) : RemoteDataSource {
     override suspend fun fetchPokemonList(page: Int): ApiResult<List<Pokemon>> =

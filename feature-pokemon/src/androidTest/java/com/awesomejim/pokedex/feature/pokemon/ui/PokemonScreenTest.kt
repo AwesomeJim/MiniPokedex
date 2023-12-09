@@ -21,6 +21,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.awesomejim.pokedex.core.data.di.fakePokemons
 import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonScreen
 import org.junit.Before
 import org.junit.Rule
@@ -45,8 +46,8 @@ class PokemonScreenTest {
 
     @Test
     fun firstItem_exists() {
-        composeTestRule.onNodeWithText(FAKE_DATA.first()).assertExists().performClick()
+        composeTestRule.onNodeWithText(FAKE_DATA.first().name).assertExists().performClick()
     }
 }
 
-private val FAKE_DATA = listOf("Compose", "Room", "Kotlin")
+private val FAKE_DATA = fakePokemons

@@ -37,6 +37,6 @@ class AppTest {
     @Test
     fun test1() {
         // TODO: Add navigation tests
-        composeTestRule.onNodeWithText(fakePokemons.first(), substring = true).assertExists()
+        composeTestRule.onNodeWithText(fakePokemons.first().name, substring = true).assertExists()
     }
 }

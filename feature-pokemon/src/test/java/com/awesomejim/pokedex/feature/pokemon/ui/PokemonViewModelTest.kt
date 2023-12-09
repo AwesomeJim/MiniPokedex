@@ -21,7 +21,7 @@ package com.awesomejim.pokedex.feature.pokemon.ui
 import com.awesomejim.pokedex.core.data.local.PokemonRepository
 import com.awesomejim.pokedex.core.model.Pokemon
 import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonUiState
-import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonViewModel
+import com.awesomejim.pokedex.feature.pokemon.ui.saved.SavedPokemonViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -39,13 +39,13 @@ import org.junit.Test
 class PokemonViewModelTest {
     @Test
     fun uiState_initiallyLoading() = runTest {
-        val viewModel = PokemonViewModel(FakePokemonRepository())
+        val viewModel = SavedPokemonViewModel(FakePokemonRepository())
         assertEquals(viewModel.uiState.first(), PokemonUiState.Loading)
     }
 
     @Test
     fun uiState_onItemSaved_isDisplayed() = runTest {
-        val viewModel = PokemonViewModel(FakePokemonRepository())
+        val viewModel = SavedPokemonViewModel(FakePokemonRepository())
         assertEquals(viewModel.uiState.first(), PokemonUiState.Loading)
     }
 }

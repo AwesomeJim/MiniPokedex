@@ -18,31 +18,25 @@ package com.awesomejim.pokedex.core.data.di
 
 import com.awesomejim.pokedex.core.data.local.DefaultPokemonRepository
 import com.awesomejim.pokedex.core.data.local.PokemonRepository
-import com.awesomejim.pokedex.core.data.repository.DefaultRemoteWeatherDataSource
-import com.awesomejim.pokedex.core.data.repository.RemoteDataSource
+import com.awesomejim.pokedex.core.data.repository.ApiResult
 import com.awesomejim.pokedex.core.model.Pokemon
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 interface DataModule {
 
-    @Singleton
     @Binds
     fun bindsPokemonRepository(
         pokemonRepository: DefaultPokemonRepository
     ): PokemonRepository
 
-    @Binds
-    fun bindRemoteWeatherDataSource(remoteWeatherDataSource: DefaultRemoteWeatherDataSource):
-            RemoteDataSource
 }
 
 class FakePokemonRepository @Inject constructor() : PokemonRepository {
@@ -50,6 +44,10 @@ class FakePokemonRepository @Inject constructor() : PokemonRepository {
 
     override suspend fun add(pokemon: Pokemon) {
         throw NotImplementedError()
+    }
+
+    override suspend fun fetchPokemonList(page: Int): ApiResult<List<Pokemon>> {
+        TODO("Not yet implemented")
     }
 }
 

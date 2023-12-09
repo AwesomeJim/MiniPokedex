@@ -16,25 +16,17 @@
 
 package com.awesomejim.pokedex.feature.pokemon.ui.home
 
-import androidx.compose.foundation.layout.Arrangement
+
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.awesomejim.pokedex.core.data.di.fakePokemons
 import com.awesomejim.pokedex.core.model.Pokemon
 import com.awesomejim.pokedex.core.ui.MyApplicationTheme
 import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonUiState.Success
@@ -42,10 +34,12 @@ import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonUiState.Success
 @Composable
 fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = hiltViewModel()) {
     val items by viewModel.pokemonUiState.collectAsStateWithLifecycle()
+    //
+    val lazyListState = rememberLazyListState()
     if (items is Success) {
         PokemonScreen(
             items = (items as Success).data,
-            onSave = { name -> viewModel.addPokemon(name) },
+            onSave = { pokemon -> viewModel.addPokemon(pokemon) },
             modifier = modifier
         )
     }
@@ -54,28 +48,12 @@ fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = h
 @Composable
 internal fun PokemonScreen(
     items: List<Pokemon>,
-    onSave: (name: String) -> Unit,
+    onSave: (pokemon: Pokemon) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier) {
-        var namePokemon by remember { mutableStateOf("Compose") }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 24.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            TextField(
-                value = namePokemon,
-                onValueChange = { namePokemon = it }
-            )
-
-            Button(modifier = Modifier.width(96.dp), onClick = { onSave(namePokemon) }) {
-                Text("Save")
-            }
-        }
         items.forEach {
-            Text("Saved item: $it")
+            Text(it.name)
         }
     }
 }
@@ -86,7 +64,7 @@ internal fun PokemonScreen(
 @Composable
 private fun DefaultPreview() {
     MyApplicationTheme {
-        PokemonScreen(listOf("Compose", "Room", "Kotlin"), onSave = {})
+        PokemonScreen(fakePokemons, onSave = {})
     }
 }
 
@@ -94,6 +72,6 @@ private fun DefaultPreview() {
 @Composable
 private fun PortraitPreview() {
     MyApplicationTheme {
-        PokemonScreen(listOf("Compose", "Room", "Kotlin"), onSave = {})
+        PokemonScreen(fakePokemons, onSave = {})
     }
 }

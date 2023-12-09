@@ -18,8 +18,8 @@ package com.awesomejim.pokedex.feature.pokemon.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.awesomejim.pokedex.core.data.local.PokemonRepository
 import com.awesomejim.pokedex.core.data.repository.ApiResult
-import com.awesomejim.pokedex.core.data.repository.RemoteDataSource
 import com.awesomejim.pokedex.core.data.repository.toResourceId
 import com.awesomejim.pokedex.core.model.Pokemon
 import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonUiState.Error
@@ -36,8 +36,10 @@ const val TIMEOUT_MILLIS = 5_000L
 
 @HiltViewModel
 class PokemonViewModel @Inject constructor(
-    private val remoteDataSource: RemoteDataSource
+    private val pokemonRepository: PokemonRepository
 ) : ViewModel() {
+
+    private val pokemonFetchingIndex: MutableStateFlow<Int> = MutableStateFlow(0)
 
     private val _pokemonUiState =
         MutableStateFlow<PokemonUiState>(PokemonUiState.Loading)
@@ -45,9 +47,14 @@ class PokemonViewModel @Inject constructor(
     val pokemonUiState: StateFlow<PokemonUiState> =
         _pokemonUiState.asStateFlow()
 
+
+    init {
+        fetchPokemonData()
+    }
+
     private fun fetchPokemonData() {
         viewModelScope.launch {
-            val result = remoteDataSource.fetchPokemonList(1)
+            val result = pokemonRepository.fetchPokemonList(1)
             _pokemonUiState.emit(processCurrentWeatherResult(result))
         }
     }
@@ -67,6 +74,12 @@ class PokemonViewModel @Inject constructor(
                 Timber.e("Error :: ${result.errorType.toResourceId()}")
                 Error(result.errorType.toResourceId())
             }
+        }
+    }
+
+    fun addPokemon(pokemon: Pokemon) {
+        viewModelScope.launch {
+            pokemonRepository.add(pokemon)
         }
     }
 }

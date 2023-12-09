@@ -31,11 +31,12 @@ dependencyResolutionManagement {
 rootProject.name = "MiniPokedex"
 
 include(":app")
+include(":core-network")
+include(":core-model")
 include(":core-data")
 include(":core-database")
 include(":core-testing")
 include(":core-ui")
 include(":feature-pokemon")
 include(":test-app")
-include(":core-network")
-include(":core-model")
+

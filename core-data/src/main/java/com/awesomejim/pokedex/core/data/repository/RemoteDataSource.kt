@@ -2,7 +2,6 @@ package com.awesomejim.pokedex.core.data.repository
 
 import androidx.annotation.WorkerThread
 import com.awesomejim.pokedex.core.model.Pokemon
-import com.awesomejim.pokedex.core.network.interceptor.ApiResult
 
 
 /**

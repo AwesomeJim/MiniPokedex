@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.awesomejim.pokedex.feature.pokemon.ui
+package com.awesomejim.pokedex.feature.pokemon.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,12 +35,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.awesomejim.pokedex.core.model.Pokemon
 import com.awesomejim.pokedex.core.ui.MyApplicationTheme
-import com.awesomejim.pokedex.feature.pokemon.ui.PokemonUiState.Success
+import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonUiState.Success
 
 @Composable
 fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = hiltViewModel()) {
-    val items by viewModel.uiState.collectAsStateWithLifecycle()
+    val items by viewModel.pokemonUiState.collectAsStateWithLifecycle()
     if (items is Success) {
         PokemonScreen(
             items = (items as Success).data,
@@ -52,7 +53,7 @@ fun PokemonScreen(modifier: Modifier = Modifier, viewModel: PokemonViewModel = h
 
 @Composable
 internal fun PokemonScreen(
-    items: List<String>,
+    items: List<Pokemon>,
     onSave: (name: String) -> Unit,
     modifier: Modifier = Modifier
 ) {

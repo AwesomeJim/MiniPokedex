@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package com.awesomejim.pokedex.feature.pokemon.ui.pokemon
+package com.awesomejim.pokedex.feature.pokemon.ui
+
 
 
 import com.awesomejim.pokedex.core.data.local.PokemonRepository
-import com.awesomejim.pokedex.feature.pokemon.ui.PokemonUiState
-import com.awesomejim.pokedex.feature.pokemon.ui.PokemonViewModel
+import com.awesomejim.pokedex.core.model.Pokemon
+import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonUiState
+import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -50,12 +52,12 @@ class PokemonViewModelTest {
 
 private class FakePokemonRepository : PokemonRepository {
 
-    private val data = mutableListOf<String>()
+    private val data = mutableListOf<Pokemon>()
 
-    override val pokemons: Flow<List<String>>
+    override val pokemons: Flow<List<Pokemon>>
         get() = flow { emit(data.toList()) }
 
-    override suspend fun add(name: String) {
-        data.add(0, name)
+    override suspend fun add(pokemon: Pokemon) {
+        data.add(0, pokemon)
     }
 }

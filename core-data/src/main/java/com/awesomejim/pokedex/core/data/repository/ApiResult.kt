@@ -1,5 +1,7 @@
-package com.awesomejim.pokedex.core.network.interceptor
+package com.awesomejim.pokedex.core.data.repository
 
+import androidx.annotation.StringRes
+import com.awesomejim.pokedex.core.data.R
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -22,4 +24,12 @@ fun printTrace(exception: Exception){
     exception.printStackTrace(PrintWriter(sw))
     val exceptionAsString = sw.toString()
     println(exceptionAsString)
+}
+
+@StringRes
+fun ErrorType.toResourceId(): Int = when (this) {
+    ErrorType.SERVER -> R.string.error_server
+    ErrorType.GENERIC -> R.string.error_generic
+    ErrorType.IO_CONNECTION -> R.string.error_connection
+    ErrorType.CLIENT -> R.string.error_client
 }

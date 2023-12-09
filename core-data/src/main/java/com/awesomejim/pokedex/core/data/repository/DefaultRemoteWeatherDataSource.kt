@@ -2,8 +2,6 @@ package com.awesomejim.pokedex.core.data.repository
 
 import androidx.annotation.VisibleForTesting
 import com.awesomejim.pokedex.core.model.Pokemon
-import com.awesomejim.pokedex.core.network.interceptor.ApiResult
-import com.awesomejim.pokedex.core.network.interceptor.printTrace
 import com.awesomejim.pokedex.core.network.model.mapResponseCodeToThrowable
 import com.awesomejim.pokedex.core.network.model.toCoreModelList
 import com.awesomejim.pokedex.core.network.service.PokedexClient

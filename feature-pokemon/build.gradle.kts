@@ -58,6 +58,7 @@ android {
 dependencies {
     implementation(project(":core-data"))
     implementation(project(":core-ui"))
+    implementation(project(":core-model"))
     androidTestImplementation(project(":core-testing"))
 
     // Core Android dependencies
@@ -78,6 +79,9 @@ dependencies {
     // Instrumented tests
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    //------------Timber logging----------
+    implementation(libs.timber)
 
     // Hilt Dependency Injection
     implementation(libs.hilt.android)

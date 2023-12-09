@@ -1,7 +1,7 @@
 package com.awesomejim.pokedex.core.network.model
 
+import com.awesomejim.pokedex.core.data.repository.ErrorType
 import com.awesomejim.pokedex.core.model.Pokemon
-import com.awesomejim.pokedex.core.network.interceptor.ErrorType
 import java.io.IOException
 
 
@@ -43,12 +43,12 @@ fun mapResponseCodeToThrowable(code: Int): Throwable = when (code) {
     else -> GenericException("Generic error : $code")
 }
 
-fun mapThrowableToErrorType(throwable: Throwable): ErrorType {
+fun mapThrowableToErrorType(throwable: Throwable): com.awesomejim.pokedex.core.data.repository.ErrorType {
     val errorType = when (throwable) {
-        is IOException -> ErrorType.IO_CONNECTION
-        is ClientException -> ErrorType.CLIENT
-        is ServerException -> ErrorType.SERVER
-        else -> ErrorType.GENERIC
+        is IOException -> com.awesomejim.pokedex.core.data.repository.ErrorType.IO_CONNECTION
+        is ClientException -> com.awesomejim.pokedex.core.data.repository.ErrorType.CLIENT
+        is ServerException -> com.awesomejim.pokedex.core.data.repository.ErrorType.SERVER
+        else -> com.awesomejim.pokedex.core.data.repository.ErrorType.GENERIC
     }
     return errorType
 }

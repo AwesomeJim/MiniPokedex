@@ -14,43 +14,53 @@
  * limitations under the License.
  */
 
-package com.awesomejim.pokedex.feature.pokemon.ui
+package com.awesomejim.pokedex.feature.pokemon.ui.saved
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.awesomejim.pokedex.core.data.local.PokemonRepository
-import com.awesomejim.pokedex.feature.pokemon.ui.PokemonUiState.Error
-import com.awesomejim.pokedex.feature.pokemon.ui.PokemonUiState.Loading
-import com.awesomejim.pokedex.feature.pokemon.ui.PokemonUiState.Success
+import com.awesomejim.pokedex.core.model.Pokemon
+import com.awesomejim.pokedex.feature.pokemon.ui.home.TIMEOUT_MILLIS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.internal.NopCollector.emit
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PokemonViewModel @Inject constructor(
+class SavedPokemonViewModel @Inject constructor(
     private val pokemonRepository: PokemonRepository
 ) : ViewModel() {
 
-    val uiState: StateFlow<PokemonUiState> = pokemonRepository
-        .pokemons.map<List<String>, PokemonUiState> { Success(data = it) }
-        .catch { emit(Error(it)) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+    val uiState: StateFlow<PokemonSavedUiState> = pokemonRepository
+        .pokemons.map { list ->
+            if (list != null) {
+                PokemonSavedUiState.Success(data = list)
+            } else {
+                PokemonSavedUiState.Success()
+            }
+        }
+        .catch {
+            PokemonSavedUiState.Error(it)
+        }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+            PokemonSavedUiState.Loading
+        )
 
-    fun addPokemon(name: String) {
+    fun addPokemon(pokemon: Pokemon) {
         viewModelScope.launch {
-            pokemonRepository.add(name)
+            pokemonRepository.add(pokemon)
         }
     }
 }
 
-sealed interface PokemonUiState {
-    object Loading : PokemonUiState
-    data class Error(val throwable: Throwable) : PokemonUiState
-    data class Success(val data: List<String>) : PokemonUiState
+sealed interface PokemonSavedUiState {
+    object Loading : PokemonSavedUiState
+    data class Error(val message: Throwable) : PokemonSavedUiState
+    data class Success(val data: List<Pokemon> = listOf()) : PokemonSavedUiState
 }

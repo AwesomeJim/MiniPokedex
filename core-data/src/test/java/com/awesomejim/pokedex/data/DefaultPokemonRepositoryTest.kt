@@ -19,6 +19,7 @@ package com.awesomejim.pokedex.data
 import com.awesomejim.pokedex.core.data.DefaultPokemonRepository
 import com.awesomejim.pokedex.core.database.PokemonDao
 import com.awesomejim.pokedex.core.database.entitiy.PokemonEntity
+import com.awesomejim.pokedex.core.model.Pokemon
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -37,9 +38,14 @@ class DefaultPokemonRepositoryTest {
     fun pokemons_newItemSaved_itemIsReturned() = runTest {
         val repository = DefaultPokemonRepository(FakePokemonDao())
 
-        repository.add("Repository")
+        repository.add(Pokemon(
+            page = 9210,
+            name = "Valeria Christian",
+            id = 2755,
+            url = "http://www.bing.com/search?q=faucibus"
+        ))
 
-        assertEquals(repository.pokemons.first().size, 1)
+        assertEquals(repository.pokemons.first()?.size, 1)
     }
 
 }

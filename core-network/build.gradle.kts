@@ -44,6 +44,8 @@ android {
 
 dependencies {
 
+    implementation(project(":core-model"))
+
     // Hilt Dependency Injection
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

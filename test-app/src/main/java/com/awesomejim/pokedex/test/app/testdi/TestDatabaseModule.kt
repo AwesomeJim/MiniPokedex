@@ -16,9 +16,9 @@
 
 package com.awesomejim.pokedex.test.app.testdi
 
-import com.awesomejim.pokedex.core.data.PokemonRepository
 import com.awesomejim.pokedex.core.data.di.DataModule
 import com.awesomejim.pokedex.core.data.di.FakePokemonRepository
+import com.awesomejim.pokedex.core.data.local.PokemonRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent

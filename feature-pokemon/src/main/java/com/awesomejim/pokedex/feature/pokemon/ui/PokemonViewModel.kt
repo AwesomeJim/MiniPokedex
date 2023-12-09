@@ -18,7 +18,7 @@ package com.awesomejim.pokedex.feature.pokemon.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.awesomejim.pokedex.core.data.PokemonRepository
+import com.awesomejim.pokedex.core.data.local.PokemonRepository
 import com.awesomejim.pokedex.feature.pokemon.ui.PokemonUiState.Error
 import com.awesomejim.pokedex.feature.pokemon.ui.PokemonUiState.Loading
 import com.awesomejim.pokedex.feature.pokemon.ui.PokemonUiState.Success
@@ -26,6 +26,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.internal.NopCollector.emit
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch

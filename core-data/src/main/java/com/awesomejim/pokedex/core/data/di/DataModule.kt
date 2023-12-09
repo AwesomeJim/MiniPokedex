@@ -16,8 +16,10 @@
 
 package com.awesomejim.pokedex.core.data.di
 
-import com.awesomejim.pokedex.core.data.DefaultPokemonRepository
-import com.awesomejim.pokedex.core.data.PokemonRepository
+import com.awesomejim.pokedex.core.data.local.DefaultPokemonRepository
+import com.awesomejim.pokedex.core.data.local.PokemonRepository
+import com.awesomejim.pokedex.core.data.repository.DefaultRemoteWeatherDataSource
+import com.awesomejim.pokedex.core.data.repository.RemoteDataSource
 import com.awesomejim.pokedex.core.model.Pokemon
 import dagger.Binds
 import dagger.Module
@@ -37,6 +39,10 @@ interface DataModule {
     fun bindsPokemonRepository(
         pokemonRepository: DefaultPokemonRepository
     ): PokemonRepository
+
+    @Binds
+    fun bindRemoteWeatherDataSource(remoteWeatherDataSource: DefaultRemoteWeatherDataSource):
+            RemoteDataSource
 }
 
 class FakePokemonRepository @Inject constructor() : PokemonRepository {

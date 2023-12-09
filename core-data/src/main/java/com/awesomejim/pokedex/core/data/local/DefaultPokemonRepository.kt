@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.awesomejim.pokedex.core.data
+package com.awesomejim.pokedex.core.data.local
 
 import com.awesomejim.pokedex.core.database.PokemonDao
 import com.awesomejim.pokedex.core.database.entitiy.mapper.asDomainList
@@ -24,12 +24,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-interface PokemonRepository {
-    val pokemons: Flow<List<Pokemon>?>
 
-    suspend fun add(pokemon:Pokemon)
-}
-
+/**
+ * Created by Awesome Jim on.
+ * 09/12/2023
+ */
 class DefaultPokemonRepository @Inject constructor(
     private val pokemonDao: PokemonDao
 ) : PokemonRepository {

@@ -16,7 +16,7 @@
 
 package com.awesomejim.pokedex.data
 
-import com.awesomejim.pokedex.core.data.DefaultPokemonRepository
+import com.awesomejim.pokedex.core.data.local.DefaultPokemonRepository
 import com.awesomejim.pokedex.core.database.PokemonDao
 import com.awesomejim.pokedex.core.database.entitiy.PokemonEntity
 import com.awesomejim.pokedex.core.model.Pokemon

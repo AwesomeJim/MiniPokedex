@@ -17,7 +17,7 @@
 package com.awesomejim.pokedex.feature.pokemon.ui.pokemon
 
 
-import com.awesomejim.pokedex.core.data.PokemonRepository
+import com.awesomejim.pokedex.core.data.local.PokemonRepository
 import com.awesomejim.pokedex.feature.pokemon.ui.PokemonUiState
 import com.awesomejim.pokedex.feature.pokemon.ui.PokemonViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi

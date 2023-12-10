@@ -41,20 +41,6 @@ fun SubtitleSmall(text: String, modifier: Modifier = Modifier, color: Color = Co
     )
 }
 
-@Composable
-fun TemperatureHeadline(
-    temperature: String,
-    modifier: Modifier = Modifier,
-    color: Color = Color.Unspecified
-) {
-    Headline(
-        text = temperature,
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .padding(vertical = 8.dp),
-        color = color,
-    )
-}
 
 @Composable
 fun Headline(text: String, modifier: Modifier = Modifier, color: Color = Color.Unspecified) {

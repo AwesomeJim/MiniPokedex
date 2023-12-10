@@ -2,6 +2,7 @@ package com.awesomejim.pokedex.core.network.model
 
 
 import com.awesomejim.pokedex.core.model.Pokemon
+import com.awesomejim.pokedex.core.model.getImageUrl
 import java.util.Locale
 
 /**
@@ -19,8 +20,7 @@ data class GenericException(override val message: String) : Throwable(message = 
 fun PokemonItemResponse.toCoreModel(): Pokemon {
     val index = url.split("/".toRegex()).dropLast(1).last()
     val id = index.toInt()
-    val imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/" +
-            "pokemon/other/official-artwork/$index.png"
+    val imageUrl = getImageUrl(index)
     return Pokemon(
         page,
         name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },

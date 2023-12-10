@@ -16,6 +16,9 @@
 
 package com.awesomejim.pokedex.ui
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -40,11 +43,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
+import com.awesomejim.pokedex.core.model.Pokemon
+import com.awesomejim.pokedex.core.model.getImageUrl
 import com.awesomejim.pokedex.core.ui.components.ErrorScreen
 import com.awesomejim.pokedex.core.ui.components.LoadingProgressScreens
 import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonScreen
 import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonUiState
 import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonViewModel
+import com.awesomejim.pokedex.feature.pokemon.ui.info.PokemonInfoScreen
+import com.awesomejim.pokedex.feature.pokemon.ui.info.PokemonInfoViewModel
+import com.awesomejim.pokedex.ui.PokemonNavigation.PokemonInfo.pokemonIdTypeArg
+import com.awesomejim.pokedex.ui.PokemonNavigation.PokemonInfo.pokemonNameTypeArg
 
 
 sealed class PokemonNavigation(var title: String, var icon: ImageVector, var screenRoute: String) {
@@ -52,12 +61,12 @@ sealed class PokemonNavigation(var title: String, var icon: ImageVector, var scr
     object Home : PokemonNavigation("Pokemons", Icons.Filled.Home, "home")
     object PokemonInfo : PokemonNavigation("Info", Icons.Filled.Home, "info") {
         const val pokemonNameTypeArg = "name"
-        const val imageUrlTypeArg = "url"
+        const val pokemonIdTypeArg = "id"
         val routeWithArgs =
-            "$screenRoute/{$pokemonNameTypeArg}/{$imageUrlTypeArg}"
+            "$screenRoute/{$pokemonNameTypeArg}/{$pokemonIdTypeArg}"
         val arguments = listOf(
             navArgument(pokemonNameTypeArg) { type = NavType.StringType },
-            navArgument(imageUrlTypeArg) { type = NavType.StringType })
+            navArgument(pokemonIdTypeArg) { type = NavType.IntType })
     }
 
     object Saved : PokemonNavigation("Saved Pokemons", Icons.Filled.Home, "saved")
@@ -140,7 +149,7 @@ fun MainNavigation(
                             pokemonViewModel.addPokemon(it)
                         },
                         onClick = {
-
+                            navController.navigateToViewPkemonInfo(it)
                         },
                         modifier = Modifier.padding(16.dp),
                     )
@@ -155,10 +164,46 @@ fun MainNavigation(
 
 
         }
-        composable(PokemonNavigation.PokemonInfo.screenRoute) {
-
-
+        composable(PokemonNavigation.PokemonInfo.routeWithArgs,
+            arguments = PokemonNavigation.PokemonInfo.arguments,
+            enterTransition = {
+                slideInVertically(
+                    animationSpec = tween(700),
+                    initialOffsetY = { it }
+                )
+            },
+            exitTransition = {
+                slideOutVertically(
+                    animationSpec = tween(700),
+                    targetOffsetY = { it }
+                )
+            }
+        )
+        { navBackStackEntry ->
+            val pokemonInfoViewModel = hiltViewModel<PokemonInfoViewModel>()
+            // Retrieve the passed argument
+            val pokemonName =
+                navBackStackEntry.arguments?.getString(pokemonNameTypeArg) ?: "Pokemon"
+            val id =
+                navBackStackEntry.arguments?.getInt(pokemonIdTypeArg) ?: 1
+            val imageUrl = getImageUrl(id.toString())
+            PokemonInfoScreen(
+                pokemonName = pokemonName,
+                imageUrl = imageUrl,
+                pokemonInfoViewModel = pokemonInfoViewModel
+            )
         }
-
     }
+}
+
+private fun NavHostController.navigateToViewPkemonInfo(pokemon: Pokemon) {
+    val pokemonNameTypeArg = pokemon.name
+    val pokemonIdTypeArg = pokemon.id
+    this.navigate(
+        "${
+            PokemonNavigation
+                .PokemonInfo
+                .screenRoute
+        }/$pokemonNameTypeArg/$pokemonIdTypeArg"
+    )
 }

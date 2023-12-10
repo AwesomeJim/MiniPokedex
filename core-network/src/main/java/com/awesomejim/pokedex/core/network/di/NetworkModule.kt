@@ -37,7 +37,7 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideBaseUrl(): String = "https://pokeapi.co/api/v2/"
+    fun provideBaseUrl(): String = BuildConfig.POKE_API_BASE_URL 
 
     @Singleton
     @Provides

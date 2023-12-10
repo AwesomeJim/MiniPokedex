@@ -21,6 +21,7 @@ package com.awesomejim.pokedex.feature.pokemon.ui
 import com.awesomejim.pokedex.core.data.local.PokemonRepository
 import com.awesomejim.pokedex.core.data.repository.ApiResult
 import com.awesomejim.pokedex.core.model.Pokemon
+import com.awesomejim.pokedex.core.model.PokemonInfo
 import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonUiState
 import com.awesomejim.pokedex.feature.pokemon.ui.saved.SavedPokemonViewModel
 import kotlinx.coroutines.flow.Flow
@@ -61,6 +62,10 @@ private class FakePokemonRepository : PokemonRepository {
     }
 
     override suspend fun fetchPokemonList(page: Int): ApiResult<List<Pokemon>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun fetchPokemonInfo(name: String): ApiResult<PokemonInfo> {
         TODO("Not yet implemented")
     }
 }

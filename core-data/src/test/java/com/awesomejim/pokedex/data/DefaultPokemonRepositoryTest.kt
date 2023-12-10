@@ -20,7 +20,6 @@ import com.awesomejim.pokedex.core.data.local.DefaultPokemonRepository
 import com.awesomejim.pokedex.core.database.PokemonDao
 import com.awesomejim.pokedex.core.database.entitiy.PokemonEntity
 import com.awesomejim.pokedex.core.model.Pokemon
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -31,7 +30,6 @@ import org.junit.Test
 /**
  * Unit tests for [DefaultPokemonRepository].
  */
-@OptIn(ExperimentalCoroutinesApi::class) // TODO: Remove when stable
 class DefaultPokemonRepositoryTest {
 
     @Test

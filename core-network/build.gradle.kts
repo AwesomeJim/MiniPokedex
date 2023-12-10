@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.com.google.dagger.hilt)
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
+    alias(libs.plugins.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -30,7 +31,6 @@ android {
 
     buildFeatures {
         buildConfig = true
-
     }
 
     compileOptions {

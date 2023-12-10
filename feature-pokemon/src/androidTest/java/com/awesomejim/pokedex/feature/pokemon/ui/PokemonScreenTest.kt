@@ -40,7 +40,9 @@ class PokemonScreenTest {
     @Before
     fun setup() {
         composeTestRule.setContent {
-            PokemonScreen(FAKE_DATA, onSave = {})
+            PokemonScreen(FAKE_DATA,
+                onSave = {} ,
+                onClick = {})
         }
     }
 

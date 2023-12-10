@@ -6,6 +6,7 @@ kotlin = "1.9.20"
 kotlinGradlePlugin = "1.9.20"
 ksp = "1.9.20-1.0.14"
 kotlin-serialization = "1.6.10"
+mapsplatform-secrets = "2.0.1"
 
 
 
@@ -181,6 +182,7 @@ com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" 
 org-jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "mapsplatform-secrets" }
 
 
 [bundles]

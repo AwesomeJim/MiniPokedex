@@ -1,9 +1,8 @@
 package com.awesomejim.pokedex.core.database
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.awesomejim.pokedex.core.database.entitiy.PokemonEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -17,6 +16,6 @@ interface PokemonDao {
     @Query("SELECT * FROM pokemonentity ORDER BY id DESC LIMIT 100")
     fun getPokemonList(): Flow<List<PokemonEntity>?>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insertPokemon(item: PokemonEntity)
 }

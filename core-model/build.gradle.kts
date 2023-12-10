@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     id(libs.plugins.kotlin.parcelize.get().pluginId)
-
+    alias(libs.plugins.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -26,6 +26,10 @@ android {
             )
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

@@ -74,15 +74,7 @@ class DefaultPokemonRepository @Inject constructor(
         try {
             val response = pokedexClient.fetchPokemonInfo(name.lowercase(Locale.ROOT))
             if (response.isSuccessful && response.body() != null) {
-                Timber.e(
-                    "<<<<<<<<<fetchPokemonInfo >>>>>>>>>>: %s",
-                    response.body()
-                )
                 val pokemonList = response.body()!!.toCoreModel()
-                Timber.e(
-                    "<<<<<<<<<fetchPokemonInfo >>>>>>>>>>: %s",
-                    response.body()
-                )
                 ApiResult.Success(data = pokemonList)
             } else {
                 throw mapResponseCodeToThrowable(response.code())

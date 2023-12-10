@@ -28,7 +28,7 @@ data class GenericException(override val message: String) : Throwable(message = 
 
 
 fun PokemonItemResponse.toCoreModel(): Pokemon {
-    val index = url.split("/".toRegex()).dropLast(1).last()
+    val index = url.split("/".toRegex()).dropLast(1).lastOrNull() ?: "1"
     val id = index.toInt()
     val imageUrl = getImageUrl(index)
     return Pokemon(

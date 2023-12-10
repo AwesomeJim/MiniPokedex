@@ -181,6 +181,7 @@ fun MainNavigation(
         )
         { navBackStackEntry ->
             val pokemonInfoViewModel = hiltViewModel<PokemonInfoViewModel>()
+
             // Retrieve the passed argument
             val pokemonName =
                 navBackStackEntry.arguments?.getString(pokemonNameTypeArg) ?: "Pokemon"

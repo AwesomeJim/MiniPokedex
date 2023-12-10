@@ -22,12 +22,15 @@ import com.awesomejim.pokedex.core.database.PokemonDao
 import com.awesomejim.pokedex.core.database.entitiy.mapper.asDomainList
 import com.awesomejim.pokedex.core.database.entitiy.mapper.asEntity
 import com.awesomejim.pokedex.core.model.Pokemon
+import com.awesomejim.pokedex.core.model.PokemonInfo
 import com.awesomejim.pokedex.core.network.model.mapResponseCodeToThrowable
+import com.awesomejim.pokedex.core.network.model.toCoreModel
 import com.awesomejim.pokedex.core.network.model.toCoreModelList
 import com.awesomejim.pokedex.core.network.service.PokedexClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -43,9 +46,9 @@ class DefaultPokemonRepository @Inject constructor(
     override val pokemons: Flow<List<Pokemon>?> =
         pokemonDao.getPokemonList().map {
             it?.asDomainList()
-       }
+        }
 
-    override suspend fun add(pokemon:Pokemon) {
+    override suspend fun add(pokemon: Pokemon) {
         pokemonDao.insertPokemon(pokemon.asEntity())
     }
 
@@ -60,7 +63,33 @@ class DefaultPokemonRepository @Inject constructor(
             }
         } catch (e: Exception) {
             Timber.e(
-                "<<<<<<<<<fetchWeatherDataWithCoordinates Exception>>>>>>>>>>: %s",
+                "<<<<<<<<<fetchPokemonList Exception>>>>>>>>>>: %s",
+                e.message
+            )
+            printTrace(e)
+            throw e
+        }
+
+    override suspend fun fetchPokemonInfo(name: String): ApiResult<PokemonInfo> =
+        try {
+            val response = pokedexClient.fetchPokemonInfo(name.lowercase(Locale.ROOT))
+            if (response.isSuccessful && response.body() != null) {
+                Timber.e(
+                    "<<<<<<<<<fetchPokemonInfo >>>>>>>>>>: %s",
+                    response.body()
+                )
+                val pokemonList = response.body()!!.toCoreModel()
+                Timber.e(
+                    "<<<<<<<<<fetchPokemonInfo >>>>>>>>>>: %s",
+                    response.body()
+                )
+                ApiResult.Success(data = pokemonList)
+            } else {
+                throw mapResponseCodeToThrowable(response.code())
+            }
+        } catch (e: Exception) {
+            Timber.e(
+                "<<<<<<<<<fetchPokemonInfo Exception>>>>>>>>>>: %s",
                 e.message
             )
             printTrace(e)

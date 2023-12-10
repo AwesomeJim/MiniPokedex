@@ -2,6 +2,7 @@ package com.awesomejim.pokedex.core.data.local
 
 import com.awesomejim.pokedex.core.data.repository.ApiResult
 import com.awesomejim.pokedex.core.model.Pokemon
+import com.awesomejim.pokedex.core.model.PokemonInfo
 import kotlinx.coroutines.flow.Flow
 
 
@@ -17,4 +18,8 @@ interface PokemonRepository {
     suspend fun fetchPokemonList(
         page: Int,
     ): ApiResult<List<Pokemon>>
+
+    suspend fun fetchPokemonInfo(
+        name: String,
+    ): ApiResult<PokemonInfo>
 }

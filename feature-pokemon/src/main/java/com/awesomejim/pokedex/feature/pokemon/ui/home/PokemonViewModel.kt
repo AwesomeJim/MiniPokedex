@@ -55,12 +55,12 @@ class PokemonViewModel @Inject constructor(
     fun fetchPokemonData() {
         viewModelScope.launch {
             val result = pokemonRepository.fetchPokemonList(1)
-            _pokemonUiState.emit(processCurrentWeatherResult(result))
+            _pokemonUiState.emit(processPokemonListResult(result))
         }
     }
 
 
-    private fun processCurrentWeatherResult(result: ApiResult<List<Pokemon>>):
+    private fun processPokemonListResult(result: ApiResult<List<Pokemon>>):
             PokemonUiState {
         return when (result) {
             is ApiResult.Success -> {

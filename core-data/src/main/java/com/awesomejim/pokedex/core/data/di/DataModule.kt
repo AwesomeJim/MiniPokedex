@@ -20,6 +20,7 @@ import com.awesomejim.pokedex.core.data.local.DefaultPokemonRepository
 import com.awesomejim.pokedex.core.data.local.PokemonRepository
 import com.awesomejim.pokedex.core.data.repository.ApiResult
 import com.awesomejim.pokedex.core.model.Pokemon
+import com.awesomejim.pokedex.core.model.PokemonInfo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -49,6 +50,10 @@ class FakePokemonRepository @Inject constructor() : PokemonRepository {
     override suspend fun fetchPokemonList(page: Int): ApiResult<List<Pokemon>> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun fetchPokemonInfo(name: String): ApiResult<PokemonInfo> {
+        TODO("Not yet implemented")
+    }
 }
 
 val fakePokemons = listOf(
@@ -70,4 +75,15 @@ val fakePokemons = listOf(
         id = 7124,
         url = "https://search.yahoo.com/search?p=solum"
     )
+)
+
+val fakePokemonInfo = PokemonInfo(
+    id = 4,
+    name = "Reinaldo Simon",
+    height = 6,
+    weight = 52,
+    experience = 8555,
+    types = listOf(),
+    abilities = listOf(),
+    stats = listOf()
 )

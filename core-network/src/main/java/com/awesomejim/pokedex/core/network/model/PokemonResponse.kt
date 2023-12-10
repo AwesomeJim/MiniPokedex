@@ -32,17 +32,43 @@ data class PokemonInfoResponse(
     @SerialName("height") val height: Int,
     @SerialName("weight") val weight: Int,
     @SerialName("base_experience") val experience: Int,
-    @SerialName("types") val types: List<TypeResponse>,
+    @SerialName("types") val types: List<TypesResponse>,
+    @SerialName("abilities") val abilities: List<AbilitiesResponse>,
+    @SerialName("stats") val stats: List<StatsResponse>
 )
 
+
+@Serializable
+data class TypesResponse(
+    @SerialName("slot") val slot: Int,
+    @SerialName("type") val type: TypeResponse,
+)
 
 @Serializable
 data class TypeResponse(
-    @SerialName("slot") val slot: Int,
-    @SerialName("type") val type: Type,
+    @SerialName("name") val name: String,
 )
 
 @Serializable
-data class Type(
+data class AbilitiesResponse(
+    @SerialName("slot") val slot: Int,
+    @SerialName("is_hidden") val isHidden: Boolean,
+    @SerialName("ability") val ability: AbilityResponse,
+)
+
+@Serializable
+data class AbilityResponse(
+    @SerialName("name") val name: String,
+)
+
+@Serializable
+data class StatsResponse(
+    @SerialName("base_stat") val baseStat: Int,
+    @SerialName("effort") val effort: Int,
+    @SerialName("stat") val stat: StatResponse,
+)
+
+@Serializable
+data class StatResponse(
     @SerialName("name") val name: String,
 )

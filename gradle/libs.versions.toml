@@ -72,6 +72,7 @@ turbine = "1.0.0"
 mockk = "1.13.8"
 truth = "1.1.5"
 junit4 = "4.13.2"
+ycharts = "2.1.0"
 
 [libraries]
 # --------androidx--------
@@ -168,6 +169,7 @@ test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ve
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 mock-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 mock-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }
+ycharts = { module = "co.yml:ycharts", version.ref = "ycharts" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

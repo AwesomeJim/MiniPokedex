@@ -61,7 +61,7 @@ val fakePokemons = listOf(
         page = 3707,
         name = "Bryan Navarro",
         id = 7599,
-        url = "http://www.bing.com/search?q=etiam"
+        url = "http://www.bing.com/search?q=1.png"
     ),
     Pokemon(
         page = 2713,

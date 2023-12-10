@@ -59,5 +59,5 @@ class PokemonInfoViewModel @Inject constructor(
 sealed interface PokemonInfoUiState {
     object Loading : PokemonInfoUiState
     data class Error(val errorMessageId: Int) : PokemonInfoUiState
-    data class Success(val data: PokemonInfo?) : PokemonInfoUiState
+    data class Success(val data: PokemonInfo) : PokemonInfoUiState
 }

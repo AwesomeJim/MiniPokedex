@@ -83,6 +83,7 @@ dependencies {
     //-----------COIL--------------------
     implementation(libs.coil.compose)
 
+    implementation(libs.ycharts)
 
     //------------Timber logging----------
     implementation(libs.timber)

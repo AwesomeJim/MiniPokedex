@@ -139,6 +139,9 @@ fun MainNavigation(
                         onSave = {
                             pokemonViewModel.addPokemon(it)
                         },
+                        onClick = {
+
+                        },
                         modifier = Modifier.padding(16.dp),
                     )
                 }

@@ -17,9 +17,13 @@
 package com.awesomejim.pokedex.feature.pokemon.ui.home
 
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -47,9 +51,10 @@ import com.awesomejim.pokedex.core.ui.theme.PokemonTheme
 import com.awesomejim.pokedex.feature.pokemon.R
 
 @Composable
- fun PokemonScreen(
+fun PokemonScreen(
     items: List<Pokemon>,
     onSave: (pokemon: Pokemon) -> Unit,
+    onClick: (pokemon: Pokemon) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -59,17 +64,31 @@ import com.awesomejim.pokedex.feature.pokemon.R
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(items) { item ->
-            PokemonCard(item, modifier)
+            PokemonCard(
+                item,
+                onSave = onSave,
+                onClick = onClick,
+                modifier
+            )
         }
     }
 }
 
 @Composable
 fun PokemonCard(
-    pokemon: Pokemon, modifier: Modifier = Modifier) {
+    pokemon: Pokemon,
+    onSave: (pokemon: Pokemon) -> Unit,
+    onClick: (pokemon: Pokemon) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(
         modifier = Modifier
-            .height(150.dp).fillMaxWidth(),
+            .height(150.dp)
+            .fillMaxWidth()
+            .animateContentSize()
+            .clickable {
+                onClick(pokemon)
+            },
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -86,12 +105,27 @@ fun PokemonCard(
                 error = painterResource(id = R.drawable.ic_broken_image),
                 placeholder = painterResource(id = R.drawable.loading_img)
             )
-            Text(
-                text = pokemon.name,
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Justify,
-                modifier = Modifier.padding(16.dp)
-            )
+            Spacer(Modifier.height(4.dp))
+            Row(
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp)
+            ) {
+                Text(
+                    text = "#${pokemon.id}",
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier.padding(4.dp)
+                )
+                Text(
+                    text = pokemon.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier.padding(4.dp)
+                )
+            }
         }
     }
 
@@ -102,7 +136,9 @@ fun PokemonCard(
 @Composable
 private fun DefaultPreview() {
     PokemonTheme {
-        PokemonScreen(fakePokemons, onSave = {})
+        PokemonScreen(fakePokemons,
+            onSave = {},
+            onClick = {})
     }
 }
 
@@ -110,6 +146,8 @@ private fun DefaultPreview() {
 @Composable
 private fun PortraitPreview() {
     PokemonTheme {
-        PokemonScreen(fakePokemons, onSave = {})
+        PokemonScreen(fakePokemons,
+            onSave = {},
+            onClick = {})
     }
 }

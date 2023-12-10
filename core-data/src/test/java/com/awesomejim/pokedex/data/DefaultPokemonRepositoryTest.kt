@@ -59,4 +59,8 @@ private class FakePokemonDao : PokemonDao {
     override suspend fun insertPokemon(item: PokemonEntity) {
         data.add(0, item)
     }
+
+    override suspend fun deletePokemon(item: PokemonEntity) {
+        TODO("Not yet implemented")
+    }
 }

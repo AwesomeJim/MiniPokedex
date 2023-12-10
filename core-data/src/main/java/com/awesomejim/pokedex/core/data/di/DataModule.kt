@@ -47,6 +47,10 @@ class FakePokemonRepository @Inject constructor() : PokemonRepository {
         throw NotImplementedError()
     }
 
+    override suspend fun delete(pokemon: Pokemon) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun fetchPokemonList(page: Int): ApiResult<List<Pokemon>> {
         TODO("Not yet implemented")
     }

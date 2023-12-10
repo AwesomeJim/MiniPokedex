@@ -22,6 +22,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -52,6 +53,9 @@ import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonUiState
 import com.awesomejim.pokedex.feature.pokemon.ui.home.PokemonViewModel
 import com.awesomejim.pokedex.feature.pokemon.ui.info.PokemonInfoScreen
 import com.awesomejim.pokedex.feature.pokemon.ui.info.PokemonInfoViewModel
+import com.awesomejim.pokedex.feature.pokemon.ui.saved.PokemonSavedUiState
+import com.awesomejim.pokedex.feature.pokemon.ui.saved.SavedPokemonScreen
+import com.awesomejim.pokedex.feature.pokemon.ui.saved.SavedPokemonViewModel
 import com.awesomejim.pokedex.ui.PokemonNavigation.PokemonInfo.pokemonIdTypeArg
 import com.awesomejim.pokedex.ui.PokemonNavigation.PokemonInfo.pokemonNameTypeArg
 
@@ -69,7 +73,7 @@ sealed class PokemonNavigation(var title: String, var icon: ImageVector, var scr
             navArgument(pokemonIdTypeArg) { type = NavType.IntType })
     }
 
-    object Saved : PokemonNavigation("Saved Pokemons", Icons.Filled.Home, "saved")
+    object Saved : PokemonNavigation("Saved Pokemons", Icons.Filled.Favorite, "saved")
     object Settings : PokemonNavigation("Settings", Icons.Filled.Settings, "settings")
 
 }
@@ -145,8 +149,8 @@ fun MainNavigation(
                 is PokemonUiState.Success -> {
                     PokemonScreen(
                         pokemonUiState.data,
-                        onSave = {
-                            pokemonViewModel.addPokemon(it)
+                        onSave = { pokemon, isFavorite ->
+                            pokemonViewModel.addOrDeletePokemon(pokemon, isFavorite)
                         },
                         onClick = {
                             navController.navigateToViewPkemonInfo(it)
@@ -157,8 +161,30 @@ fun MainNavigation(
             }
         }
         composable(PokemonNavigation.Saved.screenRoute) {
+            val savedPokemonViewModel = hiltViewModel<SavedPokemonViewModel>()
+            val pokemonUiState = savedPokemonViewModel.uiState
+                .collectAsStateWithLifecycle().value
+            when (pokemonUiState) {
+                is PokemonSavedUiState.Loading -> {
+                    LoadingProgressScreens()
+                }
 
+                is PokemonSavedUiState.Error -> {
 
+                }
+
+                is PokemonSavedUiState.Success -> {
+                    SavedPokemonScreen(
+                        items = pokemonUiState.data,
+                        onDelete = { pokemon: Pokemon, isFavorite: Boolean ->
+                            savedPokemonViewModel.addOrDeletePokemon(pokemon, isFavorite)
+                        },
+                        onClick = {
+                            navController.navigateToViewPkemonInfo(it)
+                        }
+                    )
+                }
+            }
         }
         composable(PokemonNavigation.Settings.screenRoute) {
 

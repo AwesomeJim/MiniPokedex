@@ -15,6 +15,8 @@ interface PokemonRepository {
 
     suspend fun add(pokemon: Pokemon)
 
+    suspend fun delete(pokemon: Pokemon)
+
     suspend fun fetchPokemonList(
         page: Int,
     ): ApiResult<List<Pokemon>>

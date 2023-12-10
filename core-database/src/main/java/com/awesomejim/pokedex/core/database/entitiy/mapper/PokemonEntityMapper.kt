@@ -28,6 +28,7 @@ object PokemonEntityMapper : EntityMapper<List<Pokemon>, List<PokemonEntity>> {
                 id = pokemonEntity.id,
                 name = pokemonEntity.name,
                 url = pokemonEntity.url,
+                isFavourite = true
             )
         }
     }

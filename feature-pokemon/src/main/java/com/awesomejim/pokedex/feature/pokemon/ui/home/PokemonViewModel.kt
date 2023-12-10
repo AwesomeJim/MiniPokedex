@@ -77,9 +77,13 @@ class PokemonViewModel @Inject constructor(
         }
     }
 
-    fun addPokemon(pokemon: Pokemon) {
+    fun addOrDeletePokemon(pokemon: Pokemon,isFavorite:Boolean) {
         viewModelScope.launch {
-            pokemonRepository.add(pokemon)
+            if (isFavorite) {
+                pokemonRepository.add(pokemon)
+            }else{
+                pokemonRepository.delete(pokemon)
+            }
         }
     }
 }

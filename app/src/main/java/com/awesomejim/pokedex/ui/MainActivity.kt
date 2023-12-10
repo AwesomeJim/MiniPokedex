@@ -41,8 +41,7 @@ class MainActivity : ComponentActivity() {
 
     private val bottomNavigationItems = listOf(
         PokemonNavigation.Home,
-        PokemonNavigation.Saved,
-        PokemonNavigation.Settings
+        PokemonNavigation.Saved
     )
     private lateinit var navController: NavHostController
 

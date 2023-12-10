@@ -52,6 +52,10 @@ class DefaultPokemonRepository @Inject constructor(
         pokemonDao.insertPokemon(pokemon.asEntity())
     }
 
+    override suspend fun delete(pokemon: Pokemon) {
+        pokemonDao.deletePokemon(pokemon.asEntity())
+    }
+
     override suspend fun fetchPokemonList(page: Int): ApiResult<List<Pokemon>> =
         try {
             val response = pokedexClient.fetchPokemonList(page)

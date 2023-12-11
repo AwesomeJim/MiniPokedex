@@ -90,10 +90,10 @@ The project is modularized and divided into several modules:
 - `:core:ui` - Android library with common Jetpack Compose UI widgets (Shared UI components)
 - `:core-network` - Android library purely for networking and serializing responses
 - `:core-testing` - Android library containing testing utilities.
-- `:feature-pokemon` - Android library for the pokemon feature.
 - `:test-app` - Test-only module.
   <br/>
-- ![ModulesArchitecture.png](screenshots/ModulesArchitecture.png)
+
+![ModulesArchitecture.png](screenshots/ModulesArchitecture.png)
 
 ---
 ## Development Setup ⚙️ and Pre-requisite 📝

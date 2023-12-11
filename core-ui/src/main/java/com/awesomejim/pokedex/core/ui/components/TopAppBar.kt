@@ -34,13 +34,13 @@ fun PokemonTopAppBar(
         title = {
             Text(
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                color = MaterialTheme.colorScheme.onPrimary,
                 text = title,
                 fontSize = 22.sp,
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = MaterialTheme.colorScheme.primary
         ),
         modifier = modifier,
         actions = {
@@ -51,7 +51,7 @@ fun PokemonTopAppBar(
                 IconButton(onClick = navigateUp) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
-                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                        tint = MaterialTheme.colorScheme.onPrimary,
                         contentDescription = stringResource(R.string.back_button)
                     )
                 }

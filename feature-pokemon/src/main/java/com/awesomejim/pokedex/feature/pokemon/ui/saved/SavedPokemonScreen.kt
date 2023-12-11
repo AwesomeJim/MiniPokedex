@@ -73,11 +73,11 @@ fun SavedPokemonScreen(
                     Icon(
                         imageVector = Icons.Default.Favorite,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.secondaryContainer
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
                         text = "Your favorite Pokemon's will appear here",
-                        color = MaterialTheme.colorScheme.secondaryContainer
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.weight(1f))
                 }

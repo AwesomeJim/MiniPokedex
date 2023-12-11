@@ -69,6 +69,7 @@ fun PokemonInfoScreen(
         .collectAsStateWithLifecycle().value
 
     Column(modifier = Modifier.fillMaxSize()) {
+        Spacer(modifier = Modifier.height(8.dp))
         InfoScreenBanner(
             pokemonName, imageUrl
         )

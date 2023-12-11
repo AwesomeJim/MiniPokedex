@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">MiniPokedex</string>
+    <string name="app_name">Mini Pokedex</string>
 
     <!-- Settings Screen-->
     <string name="settings_screen_title" translatable="false">Settings</string>

@@ -93,7 +93,7 @@ The project is modularized and divided into several modules:
 - `:test-app` - Test-only module.
   <br/>
 
-![ModulesArchitecture.png](screenshots/ModulesArchitecture.png)
+![ModulesArchitecture2.png](screenshots/ModulesArchitecture2.png)
 
 ---
 ## Development Setup ⚙️ and Pre-requisite 📝

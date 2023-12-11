@@ -37,6 +37,5 @@ include(":core-data")
 include(":core-database")
 include(":core-testing")
 include(":core-ui")
-include(":feature-pokemon")
 include(":test-app")
 

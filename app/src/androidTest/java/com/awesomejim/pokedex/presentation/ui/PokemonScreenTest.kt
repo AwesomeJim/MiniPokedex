@@ -14,29 +14,43 @@
  * limitations under the License.
  */
 
-package com.awesomejim.pokedex.test.app
+package com.awesomejim.pokedex.presentation.ui
 
+import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.awesomejim.pokedex.core.data.di.fakePokemons
-import com.awesomejim.pokedex.presentation.MainActivity
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
+import com.awesomejim.pokedex.presentation.ui.home.PokemonScreen
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
-@HiltAndroidTest
-class AppTest {
+/**
+ * UI tests for [PokemonScreen].
+ */
+@RunWith(AndroidJUnit4::class)
+class PokemonScreenTest {
 
-    @get:Rule(order = 0)
-    var hiltRule = HiltAndroidRule(this)
+    @get:Rule
+    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @Before
+    fun setup() {
+        composeTestRule.setContent {
+           PokemonScreen(
+                FAKE_DATA,
+                onSave = {pokemon, isFavorite ->  },
+                onClick = {})
+        }
+    }
 
     @Test
-    fun test1() {
-        // TODO: Add navigation tests
-        composeTestRule.onNodeWithText(fakePokemons.first().name, substring = true).assertExists()
+    fun firstItem_exists() {
+        composeTestRule.onNodeWithText(FAKE_DATA.first().name).assertExists().performClick()
     }
 }
+
+private val FAKE_DATA = fakePokemons

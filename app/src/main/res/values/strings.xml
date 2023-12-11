@@ -24,4 +24,7 @@
 
     <string name="home_screen_title" translatable="false">Pokemons</string>
 
+    <string name="weight_label">Weight</string>
+    <string name="height_label">Height</string>
+
 </resources>

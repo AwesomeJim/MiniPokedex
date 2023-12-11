@@ -12,6 +12,11 @@ Mini Pokedex is a android app that uses [Pokémon API](https://pokeapi.co/) to s
 - Able to save Pokémon as favorite
 - View more info about Pokémon and its basics stats
 
+## Todo
+- Increase the test coverage 
+- Add static code analysis
+- Add CI/CD
+
 # [Screenshots 📱](screenshots)
 
 

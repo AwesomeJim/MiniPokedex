@@ -17,13 +17,13 @@
 package com.awesomejim.pokedex.core.data.local
 
 import com.awesomejim.pokedex.core.data.repository.ApiResult
+import com.awesomejim.pokedex.core.data.repository.ErrorType
 import com.awesomejim.pokedex.core.data.repository.printTrace
 import com.awesomejim.pokedex.core.database.PokemonDao
 import com.awesomejim.pokedex.core.database.entitiy.mapper.asDomainList
 import com.awesomejim.pokedex.core.database.entitiy.mapper.asEntity
 import com.awesomejim.pokedex.core.model.Pokemon
 import com.awesomejim.pokedex.core.model.PokemonInfo
-import com.awesomejim.pokedex.core.network.model.mapResponseCodeToThrowable
 import com.awesomejim.pokedex.core.network.model.toCoreModel
 import com.awesomejim.pokedex.core.network.model.toCoreModelList
 import com.awesomejim.pokedex.core.network.service.PokedexClient
@@ -63,7 +63,8 @@ class DefaultPokemonRepository @Inject constructor(
                 val pokemonList = response.body()!!.results.toCoreModelList()
                 ApiResult.Success(data = pokemonList)
             } else {
-                throw mapResponseCodeToThrowable(response.code())
+                ApiResult.Error(ErrorType.IO_CONNECTION)
+               // throw mapResponseCodeToThrowable(response.code())
             }
         } catch (e: Exception) {
             Timber.e(
@@ -71,7 +72,8 @@ class DefaultPokemonRepository @Inject constructor(
                 e.message
             )
             printTrace(e)
-            throw e
+            //throw e
+            ApiResult.Error(ErrorType.IO_CONNECTION)
         }
 
     override suspend fun fetchPokemonInfo(name: String): ApiResult<PokemonInfo> =
@@ -81,7 +83,8 @@ class DefaultPokemonRepository @Inject constructor(
                 val pokemonList = response.body()!!.toCoreModel()
                 ApiResult.Success(data = pokemonList)
             } else {
-                throw mapResponseCodeToThrowable(response.code())
+                ApiResult.Error(ErrorType.IO_CONNECTION)
+              //  throw mapResponseCodeToThrowable(response.code())
             }
         } catch (e: Exception) {
             Timber.e(
@@ -89,6 +92,7 @@ class DefaultPokemonRepository @Inject constructor(
                 e.message
             )
             printTrace(e)
-            throw e
+            ApiResult.Error(ErrorType.IO_CONNECTION)
+            //throw e
         }
 }

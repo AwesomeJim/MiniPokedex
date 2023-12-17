@@ -218,7 +218,8 @@ fun MainNavigation(
             PokemonInfoScreen(
                 pokemonName = pokemonName,
                 imageUrl = imageUrl,
-                pokemonInfoViewModel = pokemonInfoViewModel
+                pokemonInfoViewModel = pokemonInfoViewModel,
+                id = id.toString()
             )
         }
     }

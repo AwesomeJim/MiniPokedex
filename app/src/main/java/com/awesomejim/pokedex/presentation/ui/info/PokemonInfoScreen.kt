@@ -48,7 +48,6 @@ import com.awesomejim.pokedex.core.ui.components.LoadingProgressScreens
 import com.awesomejim.pokedex.core.ui.components.Subtitle
 import com.awesomejim.pokedex.core.ui.components.SubtitleSmall
 import com.awesomejim.pokedex.core.ui.theme.PokemonTheme
-
 import com.awesomejim.pokedex.presentation.viewModels.PokemonInfoUiState
 import com.awesomejim.pokedex.presentation.viewModels.PokemonInfoViewModel
 
@@ -63,6 +62,7 @@ import com.awesomejim.pokedex.presentation.viewModels.PokemonInfoViewModel
 fun PokemonInfoScreen(
     pokemonName: String,
     imageUrl: String,
+    id: String,
     pokemonInfoViewModel: PokemonInfoViewModel
 ) {
     LaunchedEffect(Unit) {
@@ -74,7 +74,7 @@ fun PokemonInfoScreen(
     Column(modifier = Modifier.fillMaxSize()) {
         Spacer(modifier = Modifier.height(8.dp))
         InfoScreenBanner(
-            pokemonName, imageUrl
+            pokemonName, imageUrl, id
         )
         Spacer(modifier = Modifier.height(16.dp))
         when (pokemonInfoUiState) {
@@ -102,6 +102,7 @@ fun PokemonInfoScreen(
 fun InfoScreenBanner(
     pokemonName: String,
     imageUrl: String,
+    id: String
 ) {
     Box(
         modifier = Modifier
@@ -122,9 +123,9 @@ fun InfoScreenBanner(
             error = painterResource(id = R.drawable.ic_broken_image),
             placeholder = painterResource(id = R.drawable.loading_img)
         )
-        //url .../2.png
+        //url .../42.png
         Subtitle(
-            text = "#${imageUrl.dropLast(4).last()}",
+            text = "#$id",
         )
     }
 }
@@ -169,7 +170,8 @@ fun BaseStatisticsCard(stats: Stats) {
     Row(modifier = Modifier.fillMaxWidth()) {
         SubtitleSmall(
             text = stats.name,
-            modifier = Modifier.width(150.dp))
+            modifier = Modifier.width(150.dp)
+        )
         Spacer(
             modifier = Modifier
                 .width(8.dp)
@@ -211,6 +213,7 @@ fun BodyParamsDetailsCard(
     }
 
 }
+
 @Composable
 fun BodyParamsSections(
     conditionText: String,
@@ -261,7 +264,8 @@ fun BodyParams(
             text = stringResource(paramLabel),
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.padding(horizontal = 16.dp),
-            color = MaterialTheme.colorScheme.onPrimaryContainer)
+            color = MaterialTheme.colorScheme.onPrimaryContainer
+        )
     }
 }
 
@@ -279,7 +283,8 @@ fun PokemonInfoScreenPreview() {
         val pokemon = fakePokemons.first()
         InfoScreenBanner(
             pokemonName = pokemon.name,
-            imageUrl = pokemon.url
+            imageUrl = pokemon.url,
+            id = pokemon.id.toString()
         )
     }
 }

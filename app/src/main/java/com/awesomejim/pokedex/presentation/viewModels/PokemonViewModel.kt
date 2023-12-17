@@ -93,7 +93,7 @@ class PokemonViewModel @Inject constructor(
 }
 
 sealed interface PokemonUiState {
-    object Loading : PokemonUiState
+    data object Loading : PokemonUiState
     data class Error(val errorMessageId: Int) : PokemonUiState
     data class Success(val data: List<Pokemon> = listOf()) : PokemonUiState
 }

@@ -20,6 +20,10 @@ import com.awesomejim.pokedex.core.data.local.DefaultPokemonRepository
 import com.awesomejim.pokedex.core.database.PokemonDao
 import com.awesomejim.pokedex.core.database.entitiy.PokemonEntity
 import com.awesomejim.pokedex.core.model.Pokemon
+import com.awesomejim.pokedex.core.network.interceptor.NetworkHelper
+import com.awesomejim.pokedex.core.network.service.PokedexClient
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -32,9 +36,18 @@ import org.junit.Test
  */
 class DefaultPokemonRepositoryTest {
 
+    // 2. Mock Context and NetworkHelper
+    @MockK
+    val mockNetworkHelper = mockk<NetworkHelper>()
+
+    @MockK
+    val pokedexClient = mockk<PokedexClient>()
+
+
+
     @Test
     fun pokemons_newItemSaved_itemIsReturned() = runTest {
-        val repository = DefaultPokemonRepository(FakePokemonDao())
+        val repository = DefaultPokemonRepository(FakePokemonDao(),pokedexClient,mockNetworkHelper)
 
         repository.add(Pokemon(
             page = 9210,

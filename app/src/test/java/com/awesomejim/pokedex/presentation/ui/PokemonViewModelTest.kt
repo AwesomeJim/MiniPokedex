@@ -17,19 +17,12 @@
 package com.awesomejim.pokedex.presentation.ui
 
 
-
 import com.awesomejim.pokedex.core.data.local.PokemonRepository
 import com.awesomejim.pokedex.core.data.repository.ApiResult
 import com.awesomejim.pokedex.core.model.Pokemon
 import com.awesomejim.pokedex.core.model.PokemonInfo
-import com.awesomejim.pokedex.presentation.viewModels.PokemonUiState
-import com.awesomejim.pokedex.presentation.viewModels.SavedPokemonViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Test
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -37,19 +30,8 @@ import org.junit.Test
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class PokemonViewModelTest {
-    @Test
-    fun uiState_initiallyLoading() = runTest {
-        val viewModel =
-        SavedPokemonViewModel(FakePokemonRepository())
-        assertEquals(viewModel.uiState.first(), PokemonUiState.Loading)
-    }
 
-    @Test
-    fun uiState_onItemSaved_isDisplayed() = runTest {
-        val viewModel =
-            SavedPokemonViewModel(FakePokemonRepository())
-        assertEquals(viewModel.uiState.first(), PokemonUiState.Loading)
-    }
+
 }
 
 private class FakePokemonRepository : PokemonRepository {

@@ -2,6 +2,9 @@ package com.awesomejim.pokedex.core.data.repository
 
 import androidx.annotation.StringRes
 import com.awesomejim.pokedex.core.data.R
+import com.awesomejim.pokedex.core.network.model.ClientException
+import com.awesomejim.pokedex.core.network.model.ServerException
+import java.io.IOException
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -32,4 +35,14 @@ fun ErrorType.toResourceId(): Int = when (this) {
     ErrorType.GENERIC -> R.string.error_generic
     ErrorType.IO_CONNECTION -> R.string.error_connection
     ErrorType.CLIENT -> R.string.error_client
+}
+
+fun mapThrowableToErrorType(throwable: Throwable): ErrorType {
+    val errorType = when (throwable) {
+        is IOException -> ErrorType.IO_CONNECTION
+        is ClientException -> ErrorType.CLIENT
+        is ServerException -> ErrorType.SERVER
+        else -> ErrorType.GENERIC
+    }
+    return errorType
 }

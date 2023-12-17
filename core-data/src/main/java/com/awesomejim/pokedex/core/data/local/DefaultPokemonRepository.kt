@@ -18,12 +18,14 @@ package com.awesomejim.pokedex.core.data.local
 
 import com.awesomejim.pokedex.core.data.repository.ApiResult
 import com.awesomejim.pokedex.core.data.repository.ErrorType
-import com.awesomejim.pokedex.core.data.repository.printTrace
+import com.awesomejim.pokedex.core.data.repository.mapThrowableToErrorType
 import com.awesomejim.pokedex.core.database.PokemonDao
 import com.awesomejim.pokedex.core.database.entitiy.mapper.asDomainList
 import com.awesomejim.pokedex.core.database.entitiy.mapper.asEntity
 import com.awesomejim.pokedex.core.model.Pokemon
 import com.awesomejim.pokedex.core.model.PokemonInfo
+import com.awesomejim.pokedex.core.network.interceptor.NetworkHelper
+import com.awesomejim.pokedex.core.network.model.mapResponseCodeToThrowable
 import com.awesomejim.pokedex.core.network.model.toCoreModel
 import com.awesomejim.pokedex.core.network.model.toCoreModelList
 import com.awesomejim.pokedex.core.network.service.PokedexClient
@@ -40,7 +42,8 @@ import javax.inject.Inject
  */
 class DefaultPokemonRepository @Inject constructor(
     private val pokemonDao: PokemonDao,
-    private val pokedexClient: PokedexClient
+    private val pokedexClient: PokedexClient,
+    private val networkHelper: NetworkHelper
 ) : PokemonRepository {
 
     override val pokemons: Flow<List<Pokemon>?> =
@@ -57,42 +60,46 @@ class DefaultPokemonRepository @Inject constructor(
     }
 
     override suspend fun fetchPokemonList(page: Int): ApiResult<List<Pokemon>> =
-        try {
-            val response = pokedexClient.fetchPokemonList(page)
-            if (response.isSuccessful && response.body() != null) {
-                val pokemonList = response.body()!!.results.toCoreModelList()
-                ApiResult.Success(data = pokemonList)
-            } else {
-                ApiResult.Error(ErrorType.IO_CONNECTION)
-               // throw mapResponseCodeToThrowable(response.code())
+        if (networkHelper.isNetworkConnected()) {
+            try {
+                val response = pokedexClient.fetchPokemonList(page)
+                if (response.isSuccessful && response.body() != null) {
+                    val pokemonList = response.body()!!.results.toCoreModelList()
+                    ApiResult.Success(data = pokemonList)
+                } else {
+                    throw mapResponseCodeToThrowable(response.code())
+                }
+            } catch (throwable: Exception) {
+                Timber.e(
+                    "<<<<<<<<<fetchPokemonList Exception>>>>>>>>>>: %s",
+                    throwable.message
+                )
+                val errorType = mapThrowableToErrorType(throwable)
+                ApiResult.Error(errorType)
             }
-        } catch (e: Exception) {
-            Timber.e(
-                "<<<<<<<<<fetchPokemonList Exception>>>>>>>>>>: %s",
-                e.message
-            )
-            printTrace(e)
-            //throw e
+        } else {
             ApiResult.Error(ErrorType.IO_CONNECTION)
         }
 
     override suspend fun fetchPokemonInfo(name: String): ApiResult<PokemonInfo> =
-        try {
-            val response = pokedexClient.fetchPokemonInfo(name.lowercase(Locale.ROOT))
-            if (response.isSuccessful && response.body() != null) {
-                val pokemonList = response.body()!!.toCoreModel()
-                ApiResult.Success(data = pokemonList)
-            } else {
-                ApiResult.Error(ErrorType.IO_CONNECTION)
-              //  throw mapResponseCodeToThrowable(response.code())
+        if (networkHelper.isNetworkConnected()) {
+            try {
+                val response = pokedexClient.fetchPokemonInfo(name.lowercase(Locale.ROOT))
+                if (response.isSuccessful && response.body() != null) {
+                    val pokemonList = response.body()!!.toCoreModel()
+                    ApiResult.Success(data = pokemonList)
+                } else {
+                    throw mapResponseCodeToThrowable(response.code())
+                }
+            } catch (throwable: Exception) {
+                Timber.e(
+                    "<<<<<<<<<fetchPokemonInfo Exception>>>>>>>>>>: %s",
+                    throwable.message
+                )
+                val errorType = mapThrowableToErrorType(throwable)
+                ApiResult.Error(errorType)
             }
-        } catch (e: Exception) {
-            Timber.e(
-                "<<<<<<<<<fetchPokemonInfo Exception>>>>>>>>>>: %s",
-                e.message
-            )
-            printTrace(e)
+        } else {
             ApiResult.Error(ErrorType.IO_CONNECTION)
-            //throw e
         }
 }

@@ -16,6 +16,10 @@
 
 package com.awesomejim.pokedex.presentation.viewModels
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.awesomejim.pokedex.core.data.repository.ApiResult
@@ -28,8 +32,11 @@ import com.awesomejim.pokedex.presentation.viewModels.PokemonUiState.Error
 import com.awesomejim.pokedex.presentation.viewModels.PokemonUiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -51,6 +58,39 @@ class PokemonViewModel @Inject constructor(
     val pokemonUiState: StateFlow<PokemonUiState> =
         _pokemonUiState.asStateFlow()
 
+    var searchQuery by mutableStateOf("")
+        private set
+
+    private var pokomonList: List<Pokemon> = listOf()
+
+    fun onSearchQueryChange(newQuery: String) {
+        searchQuery = newQuery
+    }
+
+    val searchResults: StateFlow<PokemonUiState> =
+        snapshotFlow { searchQuery }
+            .combine(_pokemonUiState) { searchQuery, pokemons ->
+                when {
+                    searchQuery.isNotEmpty() -> {
+                        when (pokemons) {
+                            is Error -> TODO()
+                            PokemonUiState.Loading -> PokemonUiState.Loading
+                            is Success -> {
+                                val results = pokemons.data.filter { poke ->
+                                    poke.name.contains(searchQuery, ignoreCase = true)
+                                }
+                                PokemonUiState.Success(results)
+                            }
+                        }
+                    }
+                    else -> PokemonUiState.Success(pokomonList)
+                }
+
+            }.stateIn(
+                scope = viewModelScope,
+                initialValue = PokemonUiState.Loading,
+                started = SharingStarted.WhileSubscribed(5_000)
+            )
 
     init {
         fetchPokemonData()
@@ -71,6 +111,7 @@ class PokemonViewModel @Inject constructor(
                 val pokemonData = result.data
                 Timber.e("Pokemon list result:: ${result.data}")
                 Timber.i("first Pokemon :: ${pokemonData.first()}")
+                pokomonList = result.data
                 Success(result.data)
             }
 

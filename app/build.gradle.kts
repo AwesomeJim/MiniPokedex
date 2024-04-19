@@ -138,7 +138,10 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.lottie.compose)
 
-   // Tooling
+    implementation(libs.androidx.palette)
+
+
+    // Tooling
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
     debugImplementation(libs.androidx.compose.ui.tooling)

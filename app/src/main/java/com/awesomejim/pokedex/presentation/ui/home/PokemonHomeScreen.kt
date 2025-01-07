@@ -17,6 +17,7 @@
 package com.awesomejim.pokedex.presentation.ui.home
 
 
+import android.graphics.Bitmap
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +39,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
@@ -58,6 +60,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.palette.graphics.Palette
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.awesomejim.pokedex.R
@@ -97,6 +100,9 @@ fun PokemonCard(
     onClick: (pokemon: Pokemon) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var palette by remember { mutableStateOf<Palette?>(null) }
+    val backgroundColor by palette.paletteBackgroundColor()
+   // val mutableBitmap = bitmap.copy(Bitmap.Config.RGBA_F16, true)
     Card(
         modifier = Modifier
             .height(150.dp)
@@ -105,7 +111,13 @@ fun PokemonCard(
             .clickable {
                 onClick(pokemon)
             },
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        colors = CardColors(
+            containerColor = backgroundColor,
+            contentColor = backgroundColor,
+            disabledContainerColor = backgroundColor,
+            disabledContentColor = backgroundColor,
+        )
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Box(
@@ -124,7 +136,10 @@ fun PokemonCard(
                     contentDescription = pokemon.name,
                     contentScale = ContentScale.Fit,
                     error = painterResource(id = R.drawable.ic_broken_image),
-                    placeholder = painterResource(id = R.drawable.loading_img)
+                    placeholder = painterResource(id = R.drawable.loading_img),
+                    onSuccess = {
+                       // palette = Palette.from(it.result.drawable.toBitmap()).generate() //createPaletteSync()
+                    }
                 )
                 Surface(
                     shape = CircleShape,
@@ -199,6 +214,9 @@ fun FavoriteButton(
     }
 
 }
+
+// Generate palette synchronously and return it
+fun createPaletteSync(bitmap: Bitmap): Palette = Palette.from(bitmap).generate()
 // Previews
 
 @Preview(showBackground = true, showSystemUi = true)

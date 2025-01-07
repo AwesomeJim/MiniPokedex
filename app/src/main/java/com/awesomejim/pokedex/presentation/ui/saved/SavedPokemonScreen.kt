@@ -21,7 +21,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -45,43 +45,43 @@ fun SavedPokemonScreen(
     onClick: (pokemon: Pokemon) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        if (items.isNotEmpty()) {
-            items(items) { item ->
-                PokemonCard(
-                    item,
-                    onSave = onDelete,
-                    onClick = onClick,
-                    modifier
-                )
-            }
-        } else {
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 100.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Spacer(modifier = Modifier.weight(1f))
-                    Icon(
-                        imageVector = Icons.Default.Favorite,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface
+    if (items.isNotEmpty()) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            if (items.isNotEmpty()) {
+                items(items) { item ->
+                    PokemonCard(
+                        item,
+                        onSave = onDelete,
+                        onClick = onClick,
+                        modifier
                     )
-                    Text(
-                        text = "Your favorite Pokemon's will appear here",
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
                 }
             }
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 100.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                imageVector = Icons.Default.Favorite,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = "Your favorite Pokemon's will appear here",
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }

@@ -18,6 +18,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.com.google.dagger.hilt)
     alias(libs.plugins.com.google.devtools.ksp)
 }
@@ -138,7 +139,10 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.lottie.compose)
 
-   // Tooling
+    implementation(libs.androidx.palette)
+
+
+    // Tooling
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
     debugImplementation(libs.androidx.compose.ui.tooling)

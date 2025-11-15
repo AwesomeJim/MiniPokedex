@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 /*
  * Copyright (C) 2023, Designed and developed by awesomejim (James Mbugua)
  *
@@ -49,9 +51,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = libs.versions.jvm.target.get()
-        freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.set(listOf("-Xopt-in=kotlin.RequiresOptIn"))
+        }
     }
 }
 

@@ -1,3 +1,7 @@
+
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+
 /*
  * Copyright (C) 2023, Designed and developed by awesomejim (James Mbugua)
  *
@@ -59,9 +63,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = libs.versions.jvm.target.get()
-        freeCompilerArgs += listOf("-Xopt-in=kotlin.RequiresOptIn")
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.set(listOf("-Xopt-in=kotlin.RequiresOptIn"))
+        }
     }
 
     buildFeatures {
@@ -95,10 +101,10 @@ android {
         unitTests.isReturnDefaultValues = true
     }
 
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = libs.versions.jvm.target.get()
-            suppressWarnings = true
+    tasks.withType<KotlinJvmCompile>().configureEach {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+             suppressWarnings = true
         }
     }
 

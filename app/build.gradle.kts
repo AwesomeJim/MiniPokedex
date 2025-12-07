@@ -91,6 +91,9 @@ android {
             )
         }
     }
+    buildFeatures {
+        dataBinding = true
+    }
 
     testOptions {
         packaging {
